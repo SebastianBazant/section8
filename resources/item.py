@@ -54,12 +54,12 @@ class Item(Resource):
         data = Item.parser.parse_args()
         item = ItemModel.find_by_name(name)
 
-        if item in None:
+        if item:
 
-            item = ItemModel(name, **data)
+            item.price = data["price"]
 
         else:
-            item.price = data["price"]
+            item.price = ItemModel(name, **data)
 
         item.save_to_db()
 
