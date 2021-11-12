@@ -10,26 +10,26 @@ class Item(Resource):
     parser.add_argument('price',
                         type=float,
                         required=True,
-                        help='Name cannot be blank!')
+                        help="Name cannot be blank!")
 
     parser.add_argument('store_id',
                         type=int,
                         required=True,
-                        help='Every item needs a store id.')
+                        help="Every item needs a store id.")
 
     @jwt_required()
     def get(self, name):
         item = ItemModel.find_by_name(name)
         if item:
             return item.json()
-        return{'massage': 'Item not found'}, 404
+        return{"massage": "Item not found"}, 404
 
     @ jwt_required()
     def post(self, name):
 
         if ItemModel.find_by_name(name):
             # Something wrong with request
-            return {'message': "An item with name '{}' already exists.".format(name)}, 400
+            return {"message": "An item with name '{}' already exists.".format(name)}, 400
 
         data = Item.parser.parse_args()
         item = ItemModel(name,  **data)
@@ -37,7 +37,7 @@ class Item(Resource):
             item.save_to_db()
         except:
             # Something wrong wit the server
-            return {'message': 'An error occurred inserting the item.'}, 500
+            return {"message": "An error occurred inserting the item."}, 500
         return item.json(), 201
 
     @ jwt_required()
@@ -46,19 +46,20 @@ class Item(Resource):
         if item:
             item.delete_from_db()
 
-        return {'message': 'Item deleted'}
+            return {"message": "Item deleted"}
+        return {'message': 'Item not found.'}, 404
 
     def put(self, name):
 
         data = Item.parser.parse_args()
         item = ItemModel.find_by_name(name)
 
-        if item is None:
+        if item in None:
 
-            item = ItemModel(name, data['price'], data['store_id'])
+            item = ItemModel(name, **data)
 
         else:
-            item.price = data['price']
+            item.price = data["price"]
 
         item.save_to_db()
 
@@ -67,4 +68,4 @@ class Item(Resource):
 
 class ItemsList(Resource):
     def get(self):
-        return {'items': [x.json() for x in ItemModel.query.all()]}
+        return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
