@@ -54,7 +54,7 @@ class Item(Resource):
         data = Item.parser.parse_args()
         item = ItemModel.find_by_name(name)
 
-        if item:
+        if item is None:
 
             item.price = data["price"]
 
