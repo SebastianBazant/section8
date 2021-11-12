@@ -66,6 +66,6 @@ class Item(Resource):
         return item.json()
 
 
-class ItemsList(Resource):
+class ItemList(Resource):
     def get(self):
         return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
