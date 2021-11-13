@@ -17,8 +17,7 @@ class Store(Resource):
         try:
             store.save_to_db()
         except:
-            return {"message": "An error occurred while creating the store."}, 500
-
+            return{"message": "An error occurred while creating the store."}, 500
         return store.json(), 201
 
     def delete(self, name):
