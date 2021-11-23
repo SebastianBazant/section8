@@ -56,10 +56,10 @@ class Item(Resource):
 
         if item in None:
 
-            item = ItemModel(name, **data)
+            item.price = data["price"]
 
         else:
-            item.price = data["price"]
+            item = ItemModel(name, **data)
 
         item.save_to_db()
 
@@ -68,4 +68,4 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        return {'items': [x.json() for x in ItemModel.query.all()]}
+        return {'items': [x.json() for x in ItemModel.find_all()]}
