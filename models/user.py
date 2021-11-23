@@ -14,7 +14,7 @@ class UserModel(db.Model):
         self.password = password
 
     def json(self):
-        return{"id": self.id, "username": self.username}
+        return {"id": self.id, "username": self.username}
 
     def delete_from_db(self):
         db.session.delete(self)
