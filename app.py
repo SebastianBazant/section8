@@ -19,6 +19,11 @@ api = Api(app)
 app.secret_key = 'jose'
 
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+
 jwt = JWTManager(app)
 
 api.add_resource(Store, "/store/<string:name>")

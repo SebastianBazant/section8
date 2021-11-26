@@ -17,14 +17,14 @@ class Item(Resource):
                         required=True,
                         help="Every item needs a store id.")
 
-    @jwt_required
+    @jwt_required()
     def get(self, name):
         item = ItemModel.find_by_name(name)
         if item:
             return item.json()
-        return{"massage": "Item not found"}, 404
+        return {"massage": "Item not found"}, 404
 
-    @jwt_required
+    @jwt_required()
     def post(self, name):
 
         if ItemModel.find_by_name(name):
@@ -40,7 +40,7 @@ class Item(Resource):
             return {"message": "An error occurred inserting the item."}, 500
         return item.json(), 201
 
-    @jwt_required
+    @jwt_required()
     def delete(self, name):
         item = ItemModel.find_by_name(name)
         if item:
